@@ -1,9 +1,23 @@
 const User=require('../models/user');
 
 module.exports.profile = function(req, res){
-    return res.render('user_profile', {
-        title: 'User Profile'
-    })
+    // return res.render('user_profile', {
+    //     title: 'User Profile'
+    // })
+    if(req.cookies.user_id){
+        User.findById(req.cookies.user_id,function(err,user){
+           if(user)
+           {
+                 return res.render('user_profile',{
+                     title:"User Profile",
+                     user:user  //user for user_profile.ejs
+                 });
+           }
+           return res.redirect('/users/sign-in');
+        });
+    }else{
+        return res.redirect('/users/sign-in');
+    }
 }
 
 
@@ -49,4 +63,37 @@ module.exports.create=function(req,res){
 //sign in and create an session for the user
 module.exports.createSession=function(req,res){
 
+    //steps to authenticate
+    // find the user
+        User.findOne({email:req.body.email},function(err,user){
+            if(err){
+                console.log('error in finding the user in signing in');
+                return
+            }
+        // handle user found 
+           if(user){
+            // handle password which doesn't match
+              if(user.password!=req.body.password){
+                  return res.redirect('back');
+              }
+             // handle session creation
+             res.cookie('user_id',user.id);//set the cookie and redirect to the profile page
+             return res.redirect('/users/profile');
+           }else{
+            // handle user not found
+                   return res.redirect('back');
+           }
+        });
 }
+
+// GET /logout
+module.exports.Out= function(req, res) {
+     let id=req.body.session;            
+   User.findOne(id,function(err){
+             if(err){
+                 console.log(err);
+                 return;
+             }
+             return res.redirect('/users/sign-in');
+     });    
+};
