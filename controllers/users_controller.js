@@ -18,7 +18,6 @@ module.exports.signUp = function(req, res){
     })
 }
 
-
 // render the sign in page
 module.exports.signIn = function(req, res){
     if(req.isAuthenticated()){
@@ -57,4 +56,10 @@ module.exports.create=function(req,res){
 //sign in and create an session for the user
 module.exports.createSession=function(req,res){
    return res.redirect('/');
+}
+
+//log out
+module.exports.destroySession=function(req,res){
+    req.logout();
+    return res.redirect('/');
 }
