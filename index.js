@@ -26,6 +26,7 @@ app.set('layout extractScripts',true);
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'));
 
+//mongo store is used to store the session cookie in the db.
 app.use(session({
  name:'codeial',
  //TODO change the secret before deployment in production mode
