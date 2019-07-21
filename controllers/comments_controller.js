@@ -21,3 +21,19 @@ module.exports.create = function(req, res){
 
     });
 }
+
+// //delete comments
+// module.exports.destroy=function(req,res){
+//     Comment.findById(req.params.id,function(err,comment))
+// }
+
+
+
+
+
+
+
+
+
+
+
