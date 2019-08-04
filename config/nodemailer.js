@@ -9,12 +9,13 @@ let transporter = nodemailer.createTransport({
     port:587,
     secure:false,
     auth:{
-        user:'wadhwagitesh2@gmail.com',
-        password:'9468454043gw'
+        user:'alchemy.cn18',
+        password:'codingninjas'
     }
 });
 
-let renderTemplate = (data,relativePath) =>{
+//we will be using ejs and we will be using the template rendering engine
+let renderTemplate = (data, relativePath) =>{//relative path is from the mail is being sent
     let mailHTML;
     ejs.renderFile(
        path.join(__dirname,'../views/mailers',relativePath),
