@@ -4,13 +4,13 @@ const path=require('path');
 
 
 let transporter = nodemailer.createTransport({
-    service:'gmail',
-    host:'smtp.gmail.com',
+    service:"gmail",
+    host:"smtp.gmail.com",
     port:587,
     secure:false,
     auth:{
-        user:'alchemy.cn18',
-        password:'codingninjas'
+        user:'wadhwagitesh2@gmail.com',
+        pass:'9468454043gw'
     }
 });
 
@@ -21,7 +21,7 @@ let renderTemplate = (data, relativePath) =>{//relative path is from the mail is
        path.join(__dirname,'../views/mailers',relativePath),
        data,
        function(err,template){
-           if(err){console.log('error in rendering template');return;}
+           if(err){console.log('error in rendering template',err);return;}
            mailHTML=template;
        }
     )
@@ -33,3 +33,4 @@ module.exports={
     transporter : transporter,
     renderTemplate:renderTemplate
 }
+/** */
