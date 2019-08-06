@@ -14,7 +14,7 @@ const likeSchema=new mongoose.Schema({
     onModel:{
         type:String,
         required:true,
-        enum:('Post','Comment')
+        enum:['Post','Comment']
     }
 },{
     timestamps:true
@@ -22,3 +22,4 @@ const likeSchema=new mongoose.Schema({
 
 const Like = mongoose.model('Like',likeSchema);
 module.exports=Like;
+
