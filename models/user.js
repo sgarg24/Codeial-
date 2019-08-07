@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 
 const multer = require('multer');
@@ -20,7 +21,14 @@ const userSchema = new mongoose.Schema({
     },
     avatar: {
         type: String
-    }
+    },
+    friendships: [
+        { 
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Friendship' 
+        }
+    ]
+
 }, {
     timestamps: true
 });
@@ -44,4 +52,4 @@ userSchema.statics.avatarPath = AVATAR_PATH;
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+module.exports = User; 

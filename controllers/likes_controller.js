@@ -9,7 +9,7 @@ module.exports.toggleLike = async function(req, res){
 
         // likes/toggle/?id=abcdef&type=Post
         let likeable;
-        let deleted = false;
+        let deleted = false;  //if deleted is false then on clicking it will increase like 1
 
 
         if (req.query.type == 'Post'){
@@ -36,7 +36,7 @@ module.exports.toggleLike = async function(req, res){
 
         }else{
             // else make a new like
-
+                    //we have also this newly created like into the array of likes on post or comment 
             let newLike = await Like.create({
                 user: req.user._id,
                 likeable: req.query.id,
