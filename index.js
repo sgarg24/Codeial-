@@ -14,6 +14,15 @@ const MongoStore = require('connect-mongo')(session);
 const sassMiddleware = require('node-sass-middleware');
 const flash=require('connect-flash'); //use control+ space to auto complete
 const customMware=require('./config/middleware');
+
+//setup the chat server to be used with socket.io
+const chatServer = require('http').Server(app);
+const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
+chatServer.listen(5000);
+console.log('chat server is listening on post 5000');
+
+
+
 app.use(sassMiddleware({
     src: './assets/scss',
     dest: './assets/css',
