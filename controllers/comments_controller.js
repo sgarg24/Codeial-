@@ -1,8 +1,10 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
 const commentsMailer = require('../mailers/comments_mailer');
-const queue=require('../config/kue');
-const commentEmailWorker=require('../workers/comment_email_worker');
+const queue = require('../config/kue');
+const commentEmailWorker = require('../workers/comment_email_worker');
+const Like = require('../models/like');
+
 module.exports.create = async function(req, res){
 
     try{
@@ -19,16 +21,16 @@ module.exports.create = async function(req, res){
             post.save();
             
             comment = await comment.populate('user', 'name email').execPopulate();
-            //commentsMailer.newComment(comment);    //this line will go inside the queue
-          let job=  queue.create('emails',comment).save(function(err){//(comment email workers.js)this is the queue that i am going to create...
-                     //above save function saves and put it into the databae..         
-            if(err){
-                          console.log('Error in sending to the queue',err);
-                          return;
-                    }
-                   console.log('job enqueued',job.id);//every task that put into the queue is a job
-            });
+            // commentsMailer.newComment(comment);
 
+            let job = queue.create('emails', comment).save(function(err){
+                if (err){
+                    console.log('Error in sending to the queue', err);
+                    return;
+                }
+                console.log('job enqueued', job.id);
+
+            })
 
             if (req.xhr){
                 
@@ -66,8 +68,10 @@ module.exports.destroy = async function(req, res){
             comment.remove();
 
             let post = Post.findByIdAndUpdate(postId, { $pull: {comments: req.params.id}});
-             
-             await Like.deleteMany({likeable:comment._id,onModel:'Comment'});
+
+            // CHANGE :: destroy the associated likes for this comment
+            await Like.deleteMany({likeable: comment._id, onModel: 'Comment'});
+
 
             // send the comment id which was deleted back to the views
             if (req.xhr){
@@ -91,4 +95,5 @@ module.exports.destroy = async function(req, res){
         req.flash('error', err);
         return;
     }
+    
 }

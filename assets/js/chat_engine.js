@@ -1,5 +1,5 @@
 class ChatEngine{
-    constructor(chatBoxId, userEmail){//id of the chatbox and user email
+    constructor(chatBoxId, userEmail){
         this.chatBox = $(`#${chatBoxId}`);
         this.userEmail = userEmail;
 

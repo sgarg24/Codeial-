@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 
 const multer = require('multer');
@@ -52,4 +51,4 @@ userSchema.statics.avatarPath = AVATAR_PATH;
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = User; 
+module.exports = User;
